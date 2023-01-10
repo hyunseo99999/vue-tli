@@ -1,7 +1,9 @@
 <template>
-  <div id="app">
-    <app-header v-if="!errorPageYn"></app-header>
-    <router-view @errorPage="errorPage"></router-view>
+  <div class="app">
+    <AppHeader></AppHeader>
+    <div class="app-contents">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -29,5 +31,6 @@ export default {
 </script>
 
 <style>
-
+@import './css/reset.css';
+@import './css/common.css';
 </style>

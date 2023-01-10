@@ -1,56 +1,58 @@
 <template>
-  <div>
-    <form @submit.prevent="formSubmit" ref="form">
-      <div>
-        <label for="username">id:</label>
-        <input type="text" id="username" v-model="username" data-required="true">
-      </div>
-      <div>
-        <label for="password">password:</label>
-        <input type="text" id="password" v-model="password" >
-      </div>
-      <div>
-        <label for="nickname">nickname:</label>
-        <input type="text" id="nickname" v-model="nickname" >
-      </div>
-      <button type="submit">회원가입</button>
-    </form>
-    {{ logMessage}}
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form @submit.prevent="submitForm" class="form">
+        <div>
+          <label for="username">id: </label>
+          <input id="username" type="text" v-model="username" />
+        </div>
+        <div>
+          <label for="password">pw: </label>
+          <input id="password" type="text" v-model="password" />
+        </div>
+        <div>
+          <label for="nickname">nickname: </label>
+          <input id="nickname" type="text" v-model="nickname" />
+        </div>
+        <button type="submit" class="btn">회원 가입</button>
+      </form>
+      <p class="log">{{ logMessage }}</p>
+    </div>
   </div>
 </template>
 
 <script>
-import { registerUser } from '@/api/index.js';
+import { registerUser } from '@/api/index';
 export default {
-  data: () => ({
-    username: null,
-    password: null,
-    nickname: null,
-    logMessage: null,
-  }),
+  data() {
+    return {
+      // form values
+      username: '',
+      password: '',
+      nickname: '',
+      // log
+      logMessage: '',
+    };
+  },
   methods: {
-    async formSubmit() {
-      let { data } = await registerUser({
+    async submitForm() {
+      const userData = {
         username: this.username,
         password: this.password,
-        nickname: this.nickname
-      });
-
+        nickname: this.nickname,
+      };
+      const { data } = await registerUser(userData);
       console.log(data.username);
-      this.logMessage = `${data.username} 님 회원가입을 축하드립니다`;
-    }
-
-    /*validateBeforeSubmit() {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          // eslint-disable-next-line
-          alert('Form Submitted!');
-          return;
-        }
-
-        alert('Correct them errors!');
-      });
-    }*/
-  }
+      this.logMessage = `${data.username} 님이 가입되었습니다`;
+      this.initForm();
+    },
+    initForm() {
+      this.username = '';
+      this.password = '';
+      this.nickname = '';
+    },
+  },
 };
 </script>
+
+<style></style>
